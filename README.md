@@ -1,7 +1,16 @@
-This is a set of Python wrappers for Kaldi input-output classes.
+# This is a set of Python wrappers for Kaldi input-output classes.
 
+## Installation
+
+Simply run
+```
+./setup.py install
+```
+
+## Usage
 It allows you to do e.g.:
 
+```
   In [1]: import kaldi_io
   In [2]: feat_reader = kaldi_io.SequentialBaseFloatMatrixReader('scp:./mfcc/raw_mfcc_test.1.scp')
   In [3]: next(feat_reader)
@@ -20,4 +29,4 @@ It allows you to do e.g.:
        2.52763462]
     [ 38.64388275 -29.08744812  -9.59657097 ...,  -1.66973591  -0.54327661
        9.77887821]])
-  
+```
