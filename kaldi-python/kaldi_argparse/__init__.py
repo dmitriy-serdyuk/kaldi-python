@@ -1,14 +1,13 @@
-'''
+"""
 Created on Aug 14, 2014
 
 @author: chorows
-'''
+"""
 
 import os
 import sys
 import argparse
 
-#import __main__
 
 class AddConfig(argparse.Action):
     def __init__(self, *args, **kwargs):
@@ -17,7 +16,8 @@ class AddConfig(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
         with open(values,'r') as f:
             opts = [l.split('#')[0].strip() for l in f]
-        parser.parse_args(args=opts, namespace=namespace) 
+        parser.parse_args(args=opts, namespace=namespace)
+
 
 class KaldiArgumentParser(argparse.ArgumentParser):
     def __init__(self, *args, **kwargs):
@@ -44,8 +44,7 @@ class KaldiArgumentParser(argparse.ArgumentParser):
         grp.add_argument('--print-args', type=bool, default=True, help='Print the command line arguments (to stderr)')
         #grp.add_argument('--config', action=AddConfig, help='Configuration file with options')
         grp.add_argument('--config', default=argparse.SUPPRESS, help='Configuration file with options')
-    
-    
+
     def parse_known_args(self, args=None, namespace=None):
         if args is None:
             args = sys.argv[1:]

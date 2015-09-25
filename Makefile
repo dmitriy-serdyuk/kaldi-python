@@ -1,4 +1,4 @@
-SRCDIR = kaldi-python
+SRCDIR = kaldi-python/kaldi_io
 
 ifndef KALDI_ROOT
 $(error please set KALDI_ROOT to point ot the base of the kaldi installation)
