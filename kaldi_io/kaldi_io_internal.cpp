@@ -112,6 +112,10 @@ class PyObjectHolder {
 
   void Clear() {}
 
+  void Swap(PyObjectHolder * another) {
+    std::swap(t_, another->t_);
+  }
+
   ~PyObjectHolder() {}
 
 private:
@@ -252,6 +256,10 @@ class PythonToKaldiHolder {
   const T &Value() const {return t_;}  // if t is a pointer, would return *t_;
 
   void Clear() {}
+
+  void Swap(PythonToKaldiHolder<Converter> * another) {
+    std::swap(t_, another->t_);
+  }
 
   ~PythonToKaldiHolder() {}
 
