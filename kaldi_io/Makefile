@@ -21,7 +21,7 @@ TESTFILES =
 
 PYLIB = $(shell python-config --libs)
 PYINC = $(shell python-config --includes)
-NPINC = -I$(shell python -c 'import numpy; print numpy.get_include()')
+NPINC = -I$(shell python -c 'import numpy; print(numpy.get_include())')
 
 PYLIBS = kaldi_io_internal.so
 

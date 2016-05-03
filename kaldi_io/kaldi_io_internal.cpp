@@ -116,6 +116,11 @@ class PyObjectHolder {
     std::swap(t_, another->t_);
   }
 
+  bool ExtractRange(const PyObjectHolder &other, const std::string &range) {
+      KALDI_ERR << "ExtractRange is not defined for this type of holder.";
+      return false;
+  }
+
   ~PyObjectHolder() {}
 
 private:
@@ -259,6 +264,11 @@ class PythonToKaldiHolder {
 
   void Swap(PythonToKaldiHolder<Converter> * another) {
     std::swap(t_, another->t_);
+  }
+
+  bool ExtractRange(const PythonToKaldiHolder<Converter> &other, const std::string &range) {
+      KALDI_ERR << "ExtractRange is not defined for this type of holder.";
+      return false;
   }
 
   ~PythonToKaldiHolder() {}
