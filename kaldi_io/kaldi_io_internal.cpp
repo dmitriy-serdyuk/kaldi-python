@@ -72,8 +72,7 @@ class PyObjectHolder {
       return os.good();
 
     } catch (const std::exception &e) {
-      KALDI_WARN<< "Exception caught writing Table object: " << e.what();
-      if (!kaldi::IsKaldiError(e.what())) {std::cerr << e.what();}
+      KALDI_WARN<< "Exception caught writing Table object. " << e.what();
       return false;  // Write failure.
     }
   }
@@ -100,8 +99,7 @@ class PyObjectHolder {
       }
       return true;
     } catch (std::exception &e) {
-      KALDI_WARN << "Exception caught reading Table object";
-      if (!kaldi::IsKaldiError(e.what())) {std::cerr << e.what();}
+      KALDI_WARN << "Exception caught reading Table object. " << e.what();
       return false;
     }
   }
@@ -243,8 +241,7 @@ class PythonToKaldiHolder {
       auto_ptr<typename HW::T> obj(Converter::python_to_kaldi(t));
       return HW::Write(os, binary, (*obj));
     } catch (std::exception &e) {
-      KALDI_WARN << "Exception caught reading Table object";
-      if (!kaldi::IsKaldiError(e.what())) {std::cerr << e.what();}
+      KALDI_WARN << "Exception caught reading Table object. " << e.what();
       return false;
     }
   }

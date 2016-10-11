@@ -2,19 +2,19 @@
 
 import os
 from distutils.core import setup
-from distutils.command.build_py import build_py
+from distutils.command.build import build
 
-class Make(build_py):
+class Make(build):
     def run(self):
         os.system("make")
-        build_py.run(self)
+        build.run(self)
 
 setup(name='kaldi-python',
       version='1.0',
       description='Python interface for kaldi iterators',
       author='Jan Chorowski',
       url='https://github.com/janchorowski/kaldi-python',
-      cmdclass={'build_py': Make},
+      cmdclass={'build': Make},
       packages=['kaldi_io', 'kaldi_argparse'],
       package_data={'kaldi_io': ['kaldi_io_internal.so']},
       scripts=['scripts/apply-global-cmvn.py',
