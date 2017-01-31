@@ -1,4 +1,8 @@
 sudo: false
+cache:
+  directories:
+    - $HOME/miniconda
+    - $HOME/kaldi
 branches:
   only:
     - master
@@ -16,15 +20,21 @@ before_install:
          wget -q http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
       fi
   - chmod +x miniconda.sh
-  - ./miniconda.sh -b -p $HOME/miniconda
+  - |
+      if [ "$(ls -A $HOME/miniconda)" ]; then
+        echo "miniconda dir is not empty"
+      else
+        rm -r $HOME/miniconda && ./miniconda.sh -b -p $HOME/miniconda
+      fi
   - export PATH=$HOME/miniconda/bin:$PATH
   - conda update -q --yes conda
   - export FUEL_DATA_PATH=$TRAVIS_BUILD_DIR/data
 install:
   # Install all Python dependencies
   - conda install -q --yes python=$TRAVIS_PYTHON_VERSION numpy
-  - git clone https://github.com/kaldi-asr/kaldi.git
-  - pushd kaldi/tools && extras/check_dependencies.sh && make && popd
-  - pushd kaldi/src && ./configure --shared && make depend && make && popd
+  - git clone https://github.com/kaldi-asr/kaldi.git $HOME/kaldi
+  - pushd $HOME/kaldi/tools && ./extras/check_dependencies.sh && make && popd
+  - pushd $HOME/kaldi/src && ./configure --shared && make depend && make && popd
 script:
   - pip install -e . # Tests setup.py
+  - python -c "import kaldi_io"
