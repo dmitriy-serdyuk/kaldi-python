@@ -1,0 +1,30 @@
+sudo: false
+branches:
+  only:
+    - master
+language: python
+matrix:
+  include:
+    - python: 2.7
+    - python: 3.4
+before_install:
+  - # Setup Python environment with BLAS libraries
+  - |
+      if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
+         wget -q http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+      else
+         wget -q http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+      fi
+  - chmod +x miniconda.sh
+  - ./miniconda.sh -b -p $HOME/miniconda
+  - export PATH=$HOME/miniconda/bin:$PATH
+  - conda update -q --yes conda
+  - export FUEL_DATA_PATH=$TRAVIS_BUILD_DIR/data
+install:
+  # Install all Python dependencies
+  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION numpy
+  - git clone https://github.com/kaldi-asr/kaldi.git
+  - pushd kaldi/tools && extras/check_dependencies.sh && make && popd
+  - pushd kaldi/src && ./configure --shared && make depend && make && popd
+script:
+  - pip install -e . # Tests setup.py
