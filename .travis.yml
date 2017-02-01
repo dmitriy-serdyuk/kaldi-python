@@ -3,6 +3,7 @@ cache:
   directories:
     - $HOME/miniconda
     - $HOME/kaldi
+  timeout: 1000
 branches:
   only:
     - master
