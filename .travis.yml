@@ -12,29 +12,18 @@ matrix:
     - python: 2.7
 before_install:
   - # Setup Python environment with BLAS libraries
-  - |
-      if [[ $TRAVIS_PYTHON_VERSION == 2.7 ]]; then
-         wget -q http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
-      else
-         wget -q http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
-      fi
-  - chmod +x miniconda.sh
-  - |
-      if [ "$(ls -A $HOME/miniconda)" ]; then
-        echo "miniconda dir is not empty"
-      else
-        rm -r $HOME/miniconda && ./miniconda.sh -b -p $HOME/miniconda
-      fi
+  - export SKIP=1
+  - function skip_rest { export SKIP=0; }
+  - function skip { return $SKIP; }
+  - ./install/install_conda.sh || skip_rest
   - export PATH=$HOME/miniconda/bin:$PATH
   - conda update -q --yes conda
-  - export FUEL_DATA_PATH=$TRAVIS_BUILD_DIR/data
+  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION gcc pip boost-python
+  - (skip || ./install/install_kaldi_deps.sh) || skip_rest
+  - skip || ./install/install_kaldi.sh || skip_rest
+  - export KALDI_ROOT=$HOME/kaldi/
 install:
-  # Install all Python dependencies
-  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION numpy gcc boost-python
-  - git clone https://github.com/kaldi-asr/kaldi.git $HOME/kaldi
-  - pushd $HOME/kaldi/tools && ./extras/check_dependencies.sh && make && popd
-  - pushd $HOME/kaldi/tools && ./extras/install_openblas.sh && popd
-  - pushd $HOME/kaldi/src && ./configure --static --use-cuda=no --openblas-root=$HOME/kaldi/tools/OpenBLAS/install && make depend && make && popd
+  - skip || conda install --yes numpy
 script:
-  - pip install -e . # Tests setup.py
-  - python -c "import kaldi_io"
+  - skip || pip install . # Tests setup.py
+  - skip || python -c "import kaldi_io"
