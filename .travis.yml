@@ -19,7 +19,8 @@ before_install:
   - ./install/install_conda.sh || skip_rest
   - export PATH=$HOME/miniconda/bin:$PATH
   - conda update -q --yes conda
-  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION gcc pip boost-python
+  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION gcc pip
+  - conda install -q --yesboost
   - (skip || ./install/install_kaldi_deps.sh) || skip_rest
   - skip || ./install/install_kaldi.sh || skip_rest
   - export KALDI_ROOT=$HOME/kaldi/
