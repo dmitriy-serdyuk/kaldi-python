@@ -8,7 +8,8 @@ class Make(build):
     def run(self):
         exit_code = os.system("make")
         if exit_code != 0:
-            raise Exception("error during building")
+            raise Exception(
+                "make returned: {}".format(exit_code))
         build.run(self)
 
 setup(name='kaldi-python',
