@@ -28,7 +28,7 @@ PYLIBS = kaldi_io_internal.so
 #include $(KALDI_SRC)/makefiles/default_rules.mk
 
 %.so: %.cpp
-		g++ -shared -o $@ -Wall -fPIC -I$(KALDI_SRC) $(PYINC) $(NPINC) $(CXXFLAGS) $< $(ADDLIBS) $(LDFLAGS) -L$(PYLIB) $(LOADLIBES) $(LDLIBS) -lpython2.7 -lboost_python -lboost_system 
+		g++ -shared -o $@ -Wall -fPIC -I$(KALDI_SRC) $(PYINC) $(NPINC) $(CXXFLAGS) $< $(ADDLIBS) $(LDFLAGS) $(PYLIB) $(LOADLIBES) $(LDLIBS) -lboost_python -lboost_system 
 
 clean:
 	-rm -f *.o *.a *.so $(TESTFILES) $(BINFILES) $(TESTOUTPUTS) tmp* *.tmp

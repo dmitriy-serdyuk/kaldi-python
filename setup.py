@@ -6,7 +6,9 @@ from distutils.command.build import build
 
 class Make(build):
     def run(self):
-        os.system("make")
+        exit_code = os.system("make")
+        if exit_code != 0:
+            raise Exception("error during building")
         build.run(self)
 
 setup(name='kaldi-python',
