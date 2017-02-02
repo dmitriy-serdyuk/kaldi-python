@@ -26,5 +26,5 @@ before_install:
 install:
   - skip || conda install --yes numpy
 script:
-  - skip || pip install . # Tests setup.py
+  - skip || pip install --upgrade --force-reinstall -v . # Tests setup.py
   - skip || python -c "import kaldi_io"
