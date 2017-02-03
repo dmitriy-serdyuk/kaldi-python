@@ -29,5 +29,6 @@ install:
 script:
   - pip install --upgrade --force-reinstall -v . # Tests setup.py
   - ls /home/travis/miniconda/lib/python2.7/site-packages/kaldi_io/
+  - ls $HOME/kaldi/src/decoder
   - python -c "import kaldi_io"
   - python -c "import kaldi_io.kaldi_io_internal"
