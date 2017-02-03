@@ -28,4 +28,5 @@ install:
   - skip || conda install --yes numpy
 script:
   - pip install --upgrade --force-reinstall -v . # Tests setup.py
+  - ls /home/travis/miniconda/lib/python2.7/site-packages/kaldi_io/
   - python -c "import kaldi_io"
