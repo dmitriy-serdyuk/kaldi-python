@@ -4,7 +4,7 @@ if [ -f $HOME/kaldi/KALDI_INSTALLED ]; then
     exit 0
 fi
 cd $HOME/kaldi/src
-./configure --static --use-cuda=no --openblas-root=$HOME/kaldi/tools/OpenBLAS/install
+./configure --shared --use-cuda=no --openblas-root=$HOME/kaldi/tools/OpenBLAS/install
 make depend
 make -j 4
 touch $HOME/kaldi/KALDI_INSTALLED
