@@ -240,7 +240,7 @@ Created on Jul 31, 2014
 
 
 import numpy as np
-from kaldi_io_internal import *
+from .kaldi_io_internal import *
 
 if KALDI_BASE_FLOAT()==np.float64:
     RandomAccessBaseFloatMatrixReader = RandomAccessFloat64MatrixReader
