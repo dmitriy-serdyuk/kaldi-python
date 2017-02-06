@@ -1,0 +1,34 @@
+sudo: false
+cache:
+  directories:
+    - $HOME/miniconda
+    - $HOME/kaldi
+  timeout: 1000
+branches:
+  only:
+    - master
+language: python
+matrix:
+  include:
+    - python: 2.7
+before_install:
+  - # Setup Python environment with BLAS libraries
+  - export SKIP=1
+  - function skip_rest { export SKIP=0; }
+  - function skip { return $SKIP; }
+  - ./install/install_conda.sh || skip_rest
+  - export PATH=$HOME/miniconda/bin:$PATH
+  - conda update -q --yes conda
+  - conda install -q --yes python=$TRAVIS_PYTHON_VERSION gcc pip
+  - conda install -q --yes boost
+  - (skip || ./install/install_kaldi_deps.sh) || skip_rest
+  - skip || ./install/install_kaldi.sh || skip_rest
+  - export KALDI_ROOT=$HOME/kaldi/
+install:
+  - skip || conda install --yes numpy
+script:
+  - pip install --upgrade --force-reinstall -v . # Tests setup.py
+  - ls /home/travis/miniconda/lib/python2.7/site-packages/kaldi_io/
+  - ls $HOME/kaldi/src/decoder
+  - python -c "import kaldi_io"
+  - python -c "import kaldi_io.kaldi_io_internal"
