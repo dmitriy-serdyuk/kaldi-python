@@ -1,6 +1,7 @@
 
 all:
 EXTRA_CXXFLAGS = -Wno-sign-compare
+CXXFLAGS = $(CXXFLAGS_COMMON) $(CFLAGS_PERSONAL) $(CADD) -shared -fPIC
 
 KALDI_SRC = $(KALDI_ROOT)/src
 
@@ -28,7 +29,7 @@ PYLIBS = kaldi_io_internal.so
 #include $(KALDI_SRC)/makefiles/default_rules.mk
 
 %.so: %.cpp
-		g++ -shared -o $@ -Wall -fPIC -I$(KALDI_SRC) $(PYINC) $(NPINC) $(CXXFLAGS) $< $(ADDLIBS) $(LDFLAGS) $(PYLIB) $(LOADLIBES) $(LDLIBS) -lboost_python -lboost_system -fPIC
+		g++ -o $@ -I$(KALDI_SRC) $(PYINC) $(NPINC)  $< $(ADDLIBS) $(LDFLAGS) $(PYLIB) $(LOADLIBES) $(LDLIBS) -lboost_python -lboost_system 
 
 clean:
 	-rm -f *.o *.a *.so $(TESTFILES) $(BINFILES) $(TESTOUTPUTS) tmp* *.tmp
